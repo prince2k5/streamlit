@@ -61,7 +61,7 @@ if __name__=='__main__':
                 except:
                     pass
 
-        st.table(pd.Series(dict2))
+        st.table(pd.Series(dict2).astype(str))
 
     # except:
     #     pass
