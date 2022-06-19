@@ -20,7 +20,7 @@ def explain(m):
 if __name__=='__main__':
     try:
         modulename = st.text_input('Please enter name of the module')
-        if modulename is not None or modulename<>"":
+        if modulename is not None or modulename!="":
             if modulename is not None:
                 try:
                     mod_name = importlib.import_module(modulename)
