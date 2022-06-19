@@ -3,6 +3,7 @@ import streamlit as st
 import importlib
 from inspect import getmembers, isfunction, signature
 from PIL import Image
+import base64
 
 st.set_page_config(page_title="⚙Know Your Module🛠",layout="wide")
 st.title('⚙Know Your Module🛠')
@@ -20,27 +21,52 @@ def explain(m):
 if __name__=='__main__':
     try:
         modulename = st.text_input('Please enter name of the module')
-        if modulename is not None or modulename!="":
+        with st.expander("module Attributes"):
             if modulename is not None:
-                try:
-                    mod_name = importlib.import_module(modulename)
-                    m = {k for k in dir(mod_name) if not k.startswith('_')}
-                    a = {m[0]: signature(m[1]) for m in getmembers(mod_name, isfunction)}
-                    st.table(pd.Series(a))
+                if modulename is not None:
+                    try:
+                        mod_name = importlib.import_module(modulename)
+                        m = {k for k in dir(mod_name) if not k.startswith('_')}
+                        for m in getmembers(mod_name, isfunction):
+                            st.markdown(m[0])
+                            st.code(signature(m[1]))# st.dataframe(a)
+                    except:
+                        pass
+        a=getmembers(mod_name)
 
-                    if m is not None:
-                        with st.expander('Module properties'):
-                            selected=st.selectbox("Module Properties",m)
-                            if selected is not None:
-                                try:
-                                    st.code(signature(mod_name.__dict__[selected]))
-                                except:
-                                    st.table(getmembers(mod_name.__dict__[selected]))
-
-                except Exception as err:
-                    st.exception(err)
     except:
         pass
+
+    with st.sidebar:
+        lst=[]
+        for i in a:
+            if not str(i).startswith("_") :
+                try:
+                    st.write(signature(i[0]))
+                except:
+                    if not i[0].startswith("_"):
+                        lst.append(i[0])
+
+        st.table(lst)
+
+    selected = st.selectbox("Please select any module and function Properties", lst)
+
+    dict2={}
+    if selected:
+        st.code(signature(mod_name.__dict__[selected]))
+        for p in getmembers(mod_name.__dict__[selected],isfunction) :
+            if not str(p[0]).startswith("_"):
+                try:
+                    dict2[p[0]]=signature(p[1])
+                except:
+                    pass
+
+        st.table(pd.Series(dict2))
+
+    # except:
+    #     pass
+    # finally:
     with st.expander('SQL'):
-#         img=Image.open(r"C:\Users\princ\Downloads\sqlcheatsheet.png")
-        st.image("https://github.com/prince2k5/streamlit/blob/main/Window_Functions_Cheat_Sheet.pdf")
+        file = "https://raw.githubusercontent.com/prince2k5/streamlit/main/sqlcheatsheet.png"
+        st.image(file)
+
