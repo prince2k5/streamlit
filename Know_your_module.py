@@ -40,6 +40,7 @@ if __name__=='__main__':
                 except Exception as err:
                     st.exception(err)
     except:
-        with st.expander('SQL'):
-            img=Image.open(r"C:\Users\princ\Downloads\sqlcheatsheet.png")
-            st.image(img)
+        pass
+    with st.expander('SQL'):
+        img=Image.open(r"C:\Users\princ\Downloads\sqlcheatsheet.png")
+        st.image(img)
