@@ -42,5 +42,5 @@ if __name__=='__main__':
     except:
         pass
     with st.expander('SQL'):
-        img=Image.open(r"C:\Users\princ\Downloads\sqlcheatsheet.png")
-        st.image(img)
+#         img=Image.open(r"C:\Users\princ\Downloads\sqlcheatsheet.png")
+        st.image("https://github.com/prince2k5/streamlit/blob/main/Window_Functions_Cheat_Sheet.pdf")
